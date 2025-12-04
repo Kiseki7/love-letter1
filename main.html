@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            margin: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .stage {
+            display: none;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .stage.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #764ba2;
+            margin-bottom: 30px;
+            font-weight: normal;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        .clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4);
+            width: auto;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .clickable {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .clickable {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+        }
+
+        .clickable:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(118, 75, 162, 0.6);
+        }
+
+        .clickable:active {
+            animation: pop 0.3s ease;
+        }
+
+        .letter {
+            text-align: left;
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #333;
+            padding: 30px 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: inset 0 0 20px rgba(118, 75, 162, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .letter {
+                font-size: 1em;
+                padding: 20px 15px;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .letter {
+                font-size: 0.95em;
+                padding: 15px 10px;
+            }
+        }
+
+        .letter p {
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 40px;
+            color: #764ba2;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 4s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .the-end {
+            font-size: 4em;
+            animation: explode 2s ease-out forwards;
+            transform-origin: center;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .the-end {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .the-end {
+                font-size: 2.5em;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1em;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .subtitle {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <!-- Stage 1: Her Name -->
+        <div class="stage active" id="stage1">
+            <h1>✨ Thokozile Bibianah Phiri ✨</h1>
+            <p class="subtitle">Click to continue...</p>
+            <button class="clickable" onclick="nextStage(2)">That's Me!</button>
+        </div>
+
+        <!-- Stage 2: With Love -->
+        <div class="stage" id="stage2">
+            <h1>💕 Written With Love 💕</h1>
+            <p class="subtitle">Something special awaits you...</p>
+            <button class="clickable" onclick="nextStage(3)">Show Me</button>
+        </div>
+
+        <!-- Stage 3: Almost There -->
+        <div class="stage" id="stage3">
+            <h1>💖 Just For You 💖</h1>
+            <p class="subtitle">Your heart is about to smile...</p>
+            <button class="clickable" onclick="nextStage(4)">Open Letter</button>
+        </div>
+
+        <!-- Stage 4: Letter Part 1 -->
+        <div class="stage" id="stage4">
+            <div class="letter">
+                <h1 style="text-align: center; margin-bottom: 30px;">My Beloved Thokozile</h1>
+                
+                <p>There is a quiet light that rises within me whenever I behold your happiness. It is as though the very heavens open for a moment, letting a small ray of grace fall upon my day.</p>
+                
+                <p>You are radiant in ways that feel almost divine, and your adorableness carries a gentleness that settles my spirit.</p>
+            </div>
+            <button class="clickable" style="margin-top: 30px;" onclick="nextStage(5)">Keep Reading... 💕</button>
+        </div>
+
+        <!-- Stage 5: Letter Part 2 -->
+        <div class="stage" id="stage5">
+            <div class="letter">
+                <p>Even when the world grows loud and unruly, when the hours twist into chaos, the simple act of thinking of you steadies me. It makes me laugh under my breath, as though joy itself whispers your name to me.</p>
+                
+                <p>And when I gaze upon your snaps — those small echoes of your life — my mind begins to wander into futures unseen.</p>
+            </div>
+            <button class="clickable" style="margin-top: 30px;" onclick="nextStage(6)">Continue... 💖</button>
+        </div>
+
+        <!-- Stage 6: Letter Part 3 -->
+        <div class="stage" id="stage6">
+            <div class="letter">
+                <p>I see a balcony bathed in evening gold, our children playing below as though the earth itself is blessing them. I see myself beside you, holding you close as we sway to some old Chris Brown melody, the kind that feels ancient and tender at once.</p>
+                
+                <p>A life soft enough to rest in, strong enough to believe in.</p>
+            </div>
+            <button class="clickable" style="margin-top: 30px;" onclick="nextStage(7)">Almost There... 💗</button>
+        </div>
+
+        <!-- Stage 7: Letter Part 4 -->
+        <div class="stage" id="stage7">
+            <div class="letter">
+                <p>Then comes the truth, gentle yet certain: we are not together — not yet. But knowing you walk somewhere under this same sky brings me more comfort than I can measure.</p>
+                
+                <p>Tell me, did you know this? Gazing at your snaps eases nearly a quarter of the weight I carry. Watching your videos lifts another quarter with such ease it feels like magic.</p>
+            </div>
+            <button class="clickable" style="margin-top: 30px;" onclick="nextStage(8)">One More... 💝</button>
+        </div>
+
+        <!-- Stage 8: Final Part -->
+        <div class="stage" id="stage8">
+            <div class="letter">
+                <p>Imagine — truly imagine — if I were blessed to see you each day. It would wash away almost all of the storms within me.</p>
+                
+                <p>And so, until fate draws our paths closer, I find joy in the little pieces of you — the snaps, the soft videos, the unexpected glimpses into your world. They warm me more than I can ever fully say.</p>
+                
+                <div class="signature">
+                    Yours, in hope and gentle yearning,<br>
+                    Miracle Marvin Yourz Truly ❤️
+                </div>
+            </div>
+            <button class="clickable" style="margin-top: 30px;" onclick="showTheEnd()">Finish 💝</button>
+        </div>
+
+        <!-- Stage 9: The End -->
+        <div class="stage" id="stage9">
+            <h1 class="the-end">✨ THE END ✨</h1>
+        </div>
+    </div>
+
+    <script>
+        function nextStage(stageNumber) {
+            createHearts();
+            
+            // Hide all stages
+            const stages = document.querySelectorAll('.stage');
+            stages.forEach(stage => stage.classList.remove('active'));
+            
+            // Show the next stage
+            setTimeout(() => {
+                document.getElementById('stage' + stageNumber).classList.add('active');
+            }, 300);
+        }
+
+        function showTheEnd() {
+            createHearts();
+            
+            // Hide all stages
+            const stages = document.querySelectorAll('.stage');
+            stages.forEach(stage => stage.classList.remove('active'));
+            
+            // Show "The End" stage
+            setTimeout(() => {
+                document.getElementById('stage9').classList.add('active');
+            }, 300);
+            
+            // After 3 seconds, go back to first stage
+            setTimeout(() => {
+                const stages = document.querySelectorAll('.stage');
+                stages.forEach(stage => stage.classList.remove('active'));
+                
+                setTimeout(() => {
+                    document.getElementById('stage1').classList.add('active');
+                    createHearts();
+                }, 300);
+            }, 3000);
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation
+                setTimeout(() => heart.remove(), 6000);
+            }
+        }
+
+        // Create initial hearts on page load
+        window.onload = () => {
+            createHearts();
+        };
+    </script>
+</body>
+</html>
